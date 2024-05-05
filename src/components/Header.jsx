@@ -10,6 +10,7 @@ const Header = () => {
       <div className="container nav__container">
         <Link to="/" className="nav__logo">
           <img src={Logo} alt="Navbar Logo" />
+          <h4>MERNosphere</h4>
         </Link>
         <ul className="nav__menu">
           <li>
