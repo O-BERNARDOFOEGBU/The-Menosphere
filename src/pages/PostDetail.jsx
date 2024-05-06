@@ -13,7 +13,7 @@ const PostDetail = () => {
               Edit
             </Link>
             <Link to={`/posts/werwer/edit`} className="btn sm danger">
-              Deleted
+              Delete
             </Link>
           </div>
         </div>
