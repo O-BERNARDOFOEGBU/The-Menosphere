@@ -35,7 +35,7 @@ const Login = () => {
           />
 
           <button type="submit" className="btn primary">
-            Login...
+            Login
           </button>
         </form>
         <small>
