@@ -24,7 +24,7 @@ const Authors = () => {
         <div className="container authors__container">
           {authors.map(({ id, avatar, name, posts }) => {
             return (
-              <Link key={id} to={`/posts/users/${id}`}>
+              <Link key={id} to={`/posts/users/${id}`} className="author">
                 <div className="author__avatar">
                   <img src={avatar} alt={`Representation of ${name}`} />
                 </div>
@@ -37,7 +37,7 @@ const Authors = () => {
           })}
         </div>
       ) : (
-        <h2>No users/authors found.</h2>
+        <h2 className="center">No users/authors found.</h2>
       )}
     </section>
   );
