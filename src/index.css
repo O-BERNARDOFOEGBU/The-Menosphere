@@ -392,7 +392,7 @@ textarea {
   margin-top: 1rem;
 }
 
-/* ============================ PROFILE ===================*/
+/* ============================ USER PROFILE ===================*/
 .profile__container {
   display: grid;
   place-items: center;
@@ -424,4 +424,53 @@ textarea {
 
 .avatar__form input {
   visibility: hidden;
+}
+
+.avatar__form label,
+.profile__avatar-btn {
+  background: var(--color-gray-900);
+  color: var(--color-white);
+  font-size: 1.3rem;
+  position: absolute;
+  right: 2rem;
+  bottom: 1.4rem;
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.profile__avatar-btn {
+  cursor: pointer;
+  padding: 0;
+  /* font-size: 1.3rem; */
+  background: var(--color-primary);
+}
+
+.profile__details h1 {
+  margin-top: 1.5rem;
+}
+
+.form.profile__form {
+  margin-top: 3rem;
+  margin-inline: auto;
+  width: var(--form-width);
+}
+
+/* ============================ DASHBOARD ===================*/
+.dashboard__container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.dashboard__post {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--color-white);
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--radius-3);
 }
