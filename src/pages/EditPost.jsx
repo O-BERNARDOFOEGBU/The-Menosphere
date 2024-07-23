@@ -1,12 +1,30 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useNavigate, useParams } from "react-router-dom";
+import { UserContext } from "../context/userContext";
+import axios from "axios";
 
 const EditPost = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Uncategorized");
   const [description, setDescription] = useState("");
   const [thumbnail, setThumbnail] = useState("");
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+  const { id } = useParams();
+  // console.log(id);
+
+  const { currentUser } = useContext(UserContext);
+  const token = currentUser?.token;
+
+  //redirecting to login page for any user who isn't logged in
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, [token, navigate]);
 
   const modules = {
     toolbar: [
@@ -48,12 +66,54 @@ const EditPost = () => {
     "Weather",
   ];
 
+  useEffect(() => {
+    const getPost = async () => {
+      // setIsLoading(true);
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/posts/${id}`
+        );
+        setTitle(response.data.title);
+        setDescription(response.data.description);
+      } catch (error) {
+        console.log(error);
+      }
+      // setIsLoading(false);
+    };
+    getPost();
+  }, []);
+
+  const editPost = async (e) => {
+    e.preventDefault();
+
+    const postData = new FormData();
+    postData.set("title", title);
+    postData.set("category", category);
+    postData.set("description", description);
+    if (thumbnail) {
+      postData.set("thumbnail", thumbnail); // Updated to use the actual file
+    }
+
+    try {
+      const response = await axios.patch(
+        `${process.env.REACT_APP_BASE_URL}/posts/${id}`,
+        postData,
+        { withCredentials: true, headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (response.status == 200) {
+        return navigate("/");
+      }
+    } catch (err) {
+      setError(err.response.data.message);
+    }
+  };
+
   return (
     <section className="create-post">
       <div className="container">
         <h2> Edit Post</h2>
-        <p className="form__error-message">This is an error message</p>
-        <form className="form create-post__form">
+        {error && <p className="form__error-message">{error}</p>}
+        <form className="form create-post__form" onSubmit={editPost}>
           <input
             type="text"
             placeholder="Title"
@@ -78,8 +138,8 @@ const EditPost = () => {
           />
           <input
             type="file"
-            onChange={(e) => setThumbnail(e.target.value[0])}
-            accept="png, jpg, jpeg"
+            onChange={(e) => setThumbnail(e.target.files[0])}
+            accept="image/png, image/jpg, image/jpeg"
           />
           <button type="submit" className="btn primary">
             Update
